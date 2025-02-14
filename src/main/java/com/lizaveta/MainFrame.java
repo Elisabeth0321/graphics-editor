@@ -9,12 +9,6 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-    private final ShapeList shapeList = new ShapeList();
-
-    private final DrawingPanel drawingPanel;
-
-    private final ControlPanel controlPanel;
-
     public MainFrame() {
         setTitle("Graphic Editor");
         setSize(800, 600);
@@ -22,8 +16,9 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        drawingPanel = new DrawingPanel(shapeList);
-        controlPanel = new ControlPanel(drawingPanel, shapeList);
+        ShapeList shapeList = new ShapeList();
+        DrawingPanel drawingPanel = new DrawingPanel(shapeList);
+        ControlPanel controlPanel = new ControlPanel(drawingPanel, shapeList);
 
         add(controlPanel, BorderLayout.NORTH);
         add(drawingPanel, BorderLayout.CENTER);

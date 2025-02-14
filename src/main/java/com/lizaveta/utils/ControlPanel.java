@@ -14,15 +14,9 @@ public class ControlPanel extends JPanel {
 
     private final JComboBox<Integer> sidesComboBox;
 
-    private final DrawingPanel drawingPanel;
-
-    private final ShapeList shapeList;
-
     private double startX, startY;
 
     public ControlPanel(DrawingPanel drawingPanel, ShapeList shapeList) {
-        this.drawingPanel = drawingPanel;
-        this.shapeList = shapeList;
 
         setLayout(new FlowLayout());
 
