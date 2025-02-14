@@ -12,7 +12,7 @@ public class RectangleShape extends BaseShape {
     public void draw(Graphics g) {
         g.setColor(getColor());
 
-        g.drawRect((int) Math.min(getX1(), getX2()), (int) Math.min(getY1(), getY2()),
+        g.fillRect((int) Math.min(getX1(), getX2()), (int) Math.min(getY1(), getY2()),
                 (int) Math.abs(getX2() - getX1()), (int) Math.abs(getY2() - getY1()));
     }
 }

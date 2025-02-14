@@ -1,4 +1,4 @@
-package com.lizaveta;
+package com.lizaveta.shape_list;
 
 import com.lizaveta.shapes.BaseShape;
 
