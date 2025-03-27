@@ -9,7 +9,7 @@ public class LineShape extends BaseShape {
     private static final long serialVersionUID = 1L;
 
     public LineShape(double x1, double y1, double x2, double y2, int thickness, Color color) {
-        super(x1, y1, x2, y2, thickness, color);
+        super(x1, y1, x2, y2, thickness, color, null);
     }
 
     @Override

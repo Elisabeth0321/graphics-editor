@@ -8,8 +8,8 @@ public class RectangleShape extends BaseShape {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public RectangleShape(double x1, double y1, double x2, double y2, int thickness, Color color) {
-        super(x1, y1, x2, y2, thickness, color);
+    public RectangleShape(double x1, double y1, double x2, double y2, int thickness, Color color, Color borderColor) {
+        super(x1, y1, x2, y2, thickness, color, borderColor);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class RectangleShape extends BaseShape {
         g2d.setColor(getColor());
         g2d.fillRect(x, y, width, height);
 
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(getBorderColor());
         g2d.setStroke(new BasicStroke(thickness));
         g2d.drawRect(x, y, width, height);
     }

@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'com.lizaveta'
@@ -7,6 +8,10 @@ version = '1.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
+}
+
+application {
+    mainClass = 'com.lizaveta.MainFrame'
 }
 
 sourceSets {

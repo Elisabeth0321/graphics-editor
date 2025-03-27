@@ -3,6 +3,7 @@ package com.lizaveta.utils;
 import com.lizaveta.shape_list.ShapeList;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
 public class FileManager {
@@ -21,8 +22,10 @@ public class FileManager {
 
     public void openFile() {
         JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(parent);
+        fileChooser.setDialogTitle("Открыть файл");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Файлы данных (*.dat)", "dat"));
 
+        int result = fileChooser.showOpenDialog(parent);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
@@ -39,8 +42,10 @@ public class FileManager {
 
     public void saveFile() {
         JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(parent);
+        fileChooser.setDialogTitle("Сохранить файл");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Файлы данных (*.dat)", "dat"));
 
+        int result = fileChooser.showSaveDialog(parent);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
 
@@ -64,8 +69,7 @@ public class FileManager {
         }
     }
 
-    public JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
+    public JMenu createFileMenu() {
         JMenu fileMenu = new JMenu("Файл");
 
         JMenuItem openItem = new JMenuItem("Открыть");
@@ -82,7 +86,6 @@ public class FileManager {
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
 
-        menuBar.add(fileMenu);
-        return menuBar;
+        return fileMenu;
     }
 }

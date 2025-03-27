@@ -17,6 +17,7 @@ public abstract class BaseShape implements Serializable {
     private double x1, y1, x2, y2;
     protected int thickness;
     private Color color = Color.BLACK;
+    private Color borderColor = Color.BLACK;
 
     public abstract void draw(Graphics g);
 }

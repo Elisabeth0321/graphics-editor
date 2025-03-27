@@ -1,10 +1,7 @@
 package com.lizaveta;
 
 import com.lizaveta.shape_list.ShapeList;
-import com.lizaveta.utils.ControlPanel;
-import com.lizaveta.utils.DrawingPanel;
-import com.lizaveta.utils.FileManager;
-import com.lizaveta.utils.UndoRedoManager;
+import com.lizaveta.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +10,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("Рисовалка");
-        setSize(800, 600);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(new ImageIcon(MainFrame.class.getResource("/images/main_icon.png")).getImage());
         setLocationRelativeTo(null);
@@ -24,8 +21,13 @@ public class MainFrame extends JFrame {
         UndoRedoManager undoRedoManager = new UndoRedoManager(shapeList);
         ControlPanel controlPanel = new ControlPanel(drawingPanel, shapeList, undoRedoManager);
         FileManager fileManager = new FileManager(this, shapeList, drawingPanel, controlPanel);
+        PluginLoader pluginLoader = new PluginLoader(this, controlPanel);
 
-        setJMenuBar(fileManager.createMenuBar());
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        menuBar.add(fileManager.createFileMenu());
+        menuBar.add(pluginLoader.createPlaginMenu());
+
         add(controlPanel, BorderLayout.NORTH);
         add(drawingPanel, BorderLayout.CENTER);
     }

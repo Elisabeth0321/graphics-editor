@@ -13,8 +13,13 @@ public class PolylineShape extends BaseShape {
     private final List<Point> points = new ArrayList<>();
 
     public PolylineShape(double x1, double y1, int thickness, Color color) {
-        super(x1, y1, x1, y1, thickness, color);
+        super(x1, y1, x1, y1, thickness, color, null);
         addPoint(x1, y1);
+    }
+
+    public PolylineShape(PolylineShape other) {
+        super(other.getX1(), other.getY1(), other.getX1(), other.getY1(), other.thickness, other.getColor(), null);
+        this.points.addAll(other.points);
     }
 
     public void addPoint(double x, double y) {
