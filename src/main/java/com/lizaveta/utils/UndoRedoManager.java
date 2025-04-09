@@ -32,8 +32,11 @@ public class UndoRedoManager {
         }
     }
 
-    public void clear() {
-        shapeList.clear();
+    public void clearUndoStack() {
         undoStack.clear();
+    }
+
+    public void clearList() {
+        shapeList.clear();
     }
 }

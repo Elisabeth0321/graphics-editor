@@ -63,7 +63,8 @@ public class ControlPanel extends JPanel {
             drawingPanel.clear();
             currentPolyline = null;
 
-            undoRedoManager.clear();
+            undoRedoManager.clearList();
+            undoRedoManager.clearUndoStack();
             updateButtonsState();
         });
 
@@ -174,6 +175,7 @@ public class ControlPanel extends JPanel {
     }
 
     private BaseShape createShape(double x1, double y1, double x2, double y2) {
+        undoRedoManager.clearUndoStack();
         return shapeFactory.getOrDefault(shapeSelector.getSelectedItem().toString(), (a, b) -> null).apply(x2, y2);
     }
 
