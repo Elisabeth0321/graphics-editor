@@ -1,31 +1,33 @@
-package com.lizaveta.utils;
+package com.lizaveta.panels;
 
-import com.lizaveta.shape_list.ShapeList;
 import com.lizaveta.shapes.*;
+import com.lizaveta.utils.ShapeCreator;
+import com.lizaveta.utils.UndoRedoManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
-import java.util.function.BiFunction;
+import java.util.Objects;
 
 public class ControlPanel extends JPanel {
 
-    final JComboBox<String> shapeSelector;
+    public final JComboBox<String> shapeSelector;
     private final JComboBox<Integer> sidesComboBox;
     private final JSpinner lineThicknessSpinner;
     private final JButton undoButton, redoButton, clearButton, colorButton, borderColorButton;
 
     private final UndoRedoManager undoRedoManager;
+
     private double startX, startY;
     private Color selectedColor = Color.BLACK;
     private Color selectedBorderColor = Color.BLACK;
     private PolylineShape currentPolyline = null;
 
-    final HashMap<String, BiFunction<Double, Double, BaseShape>> shapeFactory;
+    public final HashMap<String, ShapeCreator> shapeFactory;
 
-    public ControlPanel(DrawingPanel drawingPanel, ShapeList shapeList, UndoRedoManager undoRedoManager) {
+    public ControlPanel(DrawingPanel drawingPanel, UndoRedoManager undoRedoManager) {
         this.undoRedoManager = undoRedoManager;
         setLayout(new FlowLayout());
 
@@ -35,14 +37,8 @@ public class ControlPanel extends JPanel {
 
         Integer[] sides = {3, 4, 5, 6, 7, 8, 9, 10};
         sidesComboBox = new JComboBox<>(sides);
-        sidesComboBox.setEnabled(false);
-
         lineThicknessSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
-
-        shapeSelector.addActionListener(e -> {
-            sidesComboBox.setEnabled("Многоугольник".equals(shapeSelector.getSelectedItem().toString()));
-        });
-
+        
         colorButton = new JButton("Выбрать цвет заливки");
         colorButton.addActionListener(e -> {
             selectedColor = JColorChooser.showDialog(this, "Выберите цвет", selectedColor);
@@ -56,15 +52,16 @@ public class ControlPanel extends JPanel {
         });
 
         clearButton = new JButton("Очистить");
-        undoButton = new JButton(new ImageIcon(getClass().getResource("/images/undo.png")));
-        redoButton = new JButton(new ImageIcon(getClass().getResource("/images/redo.png")));
+        undoButton = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/undo.png"))));
+        redoButton = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/redo.png"))));
 
         clearButton.addActionListener(e -> {
-            drawingPanel.clear();
             currentPolyline = null;
 
             undoRedoManager.clearList();
             undoRedoManager.clearUndoStack();
+
+            drawingPanel.clear();
             updateButtonsState();
         });
 
@@ -95,26 +92,25 @@ public class ControlPanel extends JPanel {
         updateButtonsState();
 
         shapeFactory = new HashMap<>();
-        shapeFactory.put("Отрезок", (x2, y2) ->
-                new LineShape(startX, startY, x2, y2, (int) lineThicknessSpinner.getValue(), selectedColor));
+        shapeFactory.put("Отрезок", (x1, y1, x2, y2, sidesParam, thickness, color, borderColor) ->
+                new LineShape(x1, y1, x2, y2, thickness, color));
 
-        shapeFactory.put("Прямоугольник", (x2, y2) ->
-                new RectangleShape(startX, startY, x2, y2, (int) lineThicknessSpinner.getValue(), selectedColor, selectedBorderColor));
+        shapeFactory.put("Прямоугольник", (x1, y1, x2, y2, sidesParam, thickness, color, borderColor) ->
+                new RectangleShape(x1, y1, x2, y2, thickness, color, borderColor));
 
-        shapeFactory.put("Эллипс", (x2, y2) ->
-                new EllipseShape(startX, startY, x2, y2, (int) lineThicknessSpinner.getValue(), selectedColor, selectedBorderColor));
+        shapeFactory.put("Эллипс", (x1, y1, x2, y2, sidesParam, thickness, color, borderColor) ->
+                new EllipseShape(x1, y1, x2, y2, thickness, color, borderColor));
 
-        shapeFactory.put("Многоугольник", (x2, y2) ->
-                new PolygonShape(startX, startY, x2, y2, (int) sidesComboBox.getSelectedItem(),
-                        (int) lineThicknessSpinner.getValue(), selectedColor, selectedBorderColor));
+        shapeFactory.put("Многоугольник", (x1, y1, x2, y2, sidesParam, thickness, color, borderColor) ->
+                new PolygonShape(x1, y1, x2, y2, sidesParam, thickness, color, borderColor));
 
-        shapeFactory.put("Ломаная", (x2, y2) ->
-                new PolylineShape(x2, y2, (int) lineThicknessSpinner.getValue(), selectedColor));
+        shapeFactory.put("Ломаная", (x1, y1, x2, y2, sidesParam, thickness, color, borderColor) ->
+                new PolylineShape(x2, y2, thickness, color));
 
         drawingPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if ("Ломаная".equals(shapeSelector.getSelectedItem().toString())) {
+                if ("Ломаная".equals(Objects.requireNonNull(shapeSelector.getSelectedItem()).toString())) {
                     int thickness = (int) lineThicknessSpinner.getValue();
 
                     if (currentPolyline == null) {
@@ -134,10 +130,10 @@ public class ControlPanel extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (!"Ломаная".equals(shapeSelector.getSelectedItem().toString())) {
+                if (!"Ломаная".equals(Objects.requireNonNull(shapeSelector.getSelectedItem()).toString())) {
                     double endX = e.getX();
                     double endY = e.getY();
-                    BaseShape shape = createShape(startX, startY, endX, endY);
+                    BaseShape shape = createShape(endX, endY);
 
                     shape.setColor(selectedColor);
                     undoRedoManager.addShape(shape);
@@ -148,7 +144,8 @@ public class ControlPanel extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if ("Ломаная".equals(shapeSelector.getSelectedItem().toString()) && e.getClickCount() == 2) {
+                if ("Ломаная".equals(Objects.requireNonNull(shapeSelector.getSelectedItem()).toString())
+                        && e.getClickCount() == 2) {
                     currentPolyline = null;
                 }
             }
@@ -160,12 +157,13 @@ public class ControlPanel extends JPanel {
                 double endX = e.getX();
                 double endY = e.getY();
 
-                if ("Ломаная".equals(shapeSelector.getSelectedItem().toString()) && currentPolyline != null) {
+                if ("Ломаная".equals(Objects.requireNonNull(shapeSelector.getSelectedItem()).toString())
+                        && currentPolyline != null) {
                     PolylineShape previewPolyline = new PolylineShape(currentPolyline);
                     previewPolyline.addPoint(endX, endY);
                     drawingPanel.setPreviewShape(previewPolyline);
                 } else {
-                    BaseShape previewShape = createShape(startX, startY, endX, endY);
+                    BaseShape previewShape = createShape(endX, endY);
                     previewShape.setColor(selectedColor);
                     drawingPanel.setPreviewShape(previewShape);
                 }
@@ -174,12 +172,20 @@ public class ControlPanel extends JPanel {
         });
     }
 
-    private BaseShape createShape(double x1, double y1, double x2, double y2) {
+    private BaseShape createShape(double x2, double y2) {
         undoRedoManager.clearUndoStack();
-        return shapeFactory.getOrDefault(shapeSelector.getSelectedItem().toString(), (a, b) -> null).apply(x2, y2);
+        double x1 = startX;
+        double y1 = startY;
+        int sides = (sidesComboBox.getSelectedItem() != null) ? (int) sidesComboBox.getSelectedItem() : 3;
+        int thickness = (int) lineThicknessSpinner.getValue();
+        Color color = selectedColor;
+        Color borderColor = selectedBorderColor;
+        return shapeFactory.getOrDefault(Objects.requireNonNull(shapeSelector.getSelectedItem()).toString(),
+                (a, b, c, d, e, f, g, h) -> null)
+                .create(x1, y1, x2, y2, sides, thickness, color, borderColor);
     }
 
-    void updateButtonsState() {
+    public void updateButtonsState() {
         undoButton.setEnabled(!undoRedoManager.shapeList.isEmpty());
         redoButton.setEnabled(!undoRedoManager.undoStack.isEmpty());
         clearButton.setEnabled(!(undoRedoManager.shapeList.isEmpty() && undoRedoManager.undoStack.isEmpty()));

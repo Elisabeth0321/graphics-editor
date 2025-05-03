@@ -1,4 +1,4 @@
-package com.lizaveta.utils;
+package com.lizaveta.panels;
 
 import com.lizaveta.shape_list.ShapeList;
 import com.lizaveta.shapes.BaseShape;
@@ -28,6 +28,7 @@ public class DrawingPanel extends JPanel {
 
     public void clear() {
         shapeList.clear();
+        previewShape = null;
         repaint();
     }
 

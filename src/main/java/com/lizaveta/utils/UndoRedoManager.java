@@ -3,12 +3,11 @@ package com.lizaveta.utils;
 import com.lizaveta.shape_list.ShapeList;
 import com.lizaveta.shapes.BaseShape;
 
-import javax.swing.*;
 import java.util.Stack;
 
 public class UndoRedoManager {
-    final ShapeList shapeList;
-    final Stack<BaseShape> undoStack = new Stack<>();
+    public final ShapeList shapeList;
+    public final Stack<BaseShape> undoStack = new Stack<>();
 
     public UndoRedoManager(ShapeList shapeList) {
         this.shapeList = shapeList;

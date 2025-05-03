@@ -1,5 +1,7 @@
 package com.lizaveta.utils;
 
+import com.lizaveta.panels.ControlPanel;
+import com.lizaveta.panels.DrawingPanel;
 import com.lizaveta.shape_list.ShapeList;
 
 import javax.swing.*;
@@ -20,7 +22,7 @@ public class FileManager {
         this.controlPanel = controlPanel;
     }
 
-    public void openFile() {
+    private void openFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Открыть файл");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Файлы данных (*.dat)", "dat"));
@@ -40,7 +42,7 @@ public class FileManager {
         }
     }
 
-    public void saveFile() {
+    private void saveFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Сохранить файл");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Файлы данных (*.dat)", "dat"));
@@ -62,7 +64,7 @@ public class FileManager {
         }
     }
 
-    public void exitApplication() {
+    private void exitApplication() {
         int confirm = JOptionPane.showConfirmDialog(parent, "Вы действительно хотите выйти?", "Выход", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
             System.exit(0);

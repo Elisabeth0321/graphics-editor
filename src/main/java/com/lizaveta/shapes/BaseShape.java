@@ -14,10 +14,9 @@ public abstract class BaseShape implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private double x1, y1, x2, y2;
-    protected int thickness;
-    private Color color = Color.BLACK;
-    private Color borderColor = Color.BLACK;
+    protected double x1, y1, x2, y2;
+    protected int sides, thickness;
+    protected Color color, borderColor;
 
     public abstract void draw(Graphics g);
 }
