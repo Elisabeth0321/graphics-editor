@@ -1,7 +1,7 @@
 package com.lizaveta.utils;
 
 import com.lizaveta.panels.ControlPanel;
-import com.lizaveta.plugin.ShapePlugin;
+import com.lizaveta.plugin.IShapePlugin;
 import lombok.Getter;
 
 import java.io.File;
@@ -17,7 +17,7 @@ import javax.swing.*;
 
 public class PluginLoader {
     @Getter
-    private final HashMap<String, ShapeCreator> shapeFactory = new HashMap<>();
+    private final HashMap<String, IShapeCreator> shapeFactory = new HashMap<>();
 
 
     private static final List<URL> pluginUrls = new ArrayList<>();
@@ -58,12 +58,12 @@ public class PluginLoader {
                         String className = name.replace('/', '.').substring(0, name.length() - 6);
                         try {
                             Class<?> clazz = pluginClassLoader.loadClass(className);
-                            if (ShapePlugin.class.isAssignableFrom(clazz)) {
-                                ShapePlugin plugin = (ShapePlugin) clazz.getDeclaredConstructor().newInstance();
+                            if (IShapePlugin.class.isAssignableFrom(clazz)) {
+                                IShapePlugin plugin = (IShapePlugin) clazz.getDeclaredConstructor().newInstance();
                                 var shapes = plugin.getShapes();
                                 for (var entryShape : shapes.entrySet()) {
                                     String shapeName = entryShape.getKey();
-                                    ShapeCreator factory = entryShape.getValue();
+                                    IShapeCreator factory = entryShape.getValue();
                                     controlPanel.shapeFactory.put(shapeName, factory);
                                     controlPanel.shapeSelector.addItem(shapeName);
                                 }

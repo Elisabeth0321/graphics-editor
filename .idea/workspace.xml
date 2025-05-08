@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2fbc0558-6473-48d9-b97f-6632c6e7ece8" name="Changes" comment="change shapes structure&#10;add plugin support">
+    <list default="true" id="2fbc0558-6473-48d9-b97f-6632c6e7ece8" name="Changes" comment="fix FileManager.java with plugin support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lizaveta/utils/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lizaveta/utils/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lizaveta/panels/ControlPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lizaveta/panels/ControlPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lizaveta/plugin/ShapePlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lizaveta/plugin/IShapePlugin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/lizaveta/utils/PluginLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lizaveta/utils/PluginLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/lizaveta/utils/ShapeCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lizaveta/utils/IShapeCreator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +142,9 @@
       <workItem from="1746426436725" duration="32000" />
       <workItem from="1746526193257" duration="108000" />
       <workItem from="1746680664971" duration="2860000" />
-      <workItem from="1746699149905" duration="1316000" />
+      <workItem from="1746699149905" duration="1397000" />
+      <workItem from="1746694544963" duration="253000" />
+      <workItem from="1746694942746" duration="335000" />
     </task>
     <task id="LOCAL-00001" summary="Add choice of color and line thickness&#10;Add file management menu&#10;Add undo/redo stack">
       <option name="closed" value="true" />
@@ -174,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746271534547</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fix FileManager.java with plugin support">
+      <option name="closed" value="true" />
+      <created>1746700540530</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1746700540530</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +197,7 @@
     <MESSAGE value="Add choice of border color" />
     <MESSAGE value="change undo-redo manager" />
     <MESSAGE value="change shapes structure&#10;add plugin support" />
-    <option name="LAST_COMMIT_MESSAGE" value="change shapes structure&#10;add plugin support" />
+    <MESSAGE value="fix FileManager.java with plugin support" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix FileManager.java with plugin support" />
   </component>
 </project>

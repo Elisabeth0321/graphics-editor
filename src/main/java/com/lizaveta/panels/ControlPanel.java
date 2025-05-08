@@ -1,7 +1,7 @@
 package com.lizaveta.panels;
 
 import com.lizaveta.shapes.*;
-import com.lizaveta.utils.ShapeCreator;
+import com.lizaveta.utils.IShapeCreator;
 import com.lizaveta.utils.UndoRedoManager;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ public class ControlPanel extends JPanel {
     private Color selectedBorderColor = Color.BLACK;
     private PolylineShape currentPolyline = null;
 
-    public final HashMap<String, ShapeCreator> shapeFactory;
+    public final HashMap<String, IShapeCreator> shapeFactory;
 
     public ControlPanel(DrawingPanel drawingPanel, UndoRedoManager undoRedoManager) {
         this.undoRedoManager = undoRedoManager;
